@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-# @Time    : 2017/12/21 14:38
+# @Time    : 2017/12/25 16:09
 # @Author  : Lei Zhen
 # @Contract: leizhen8080@gmail.com
-# @File    : test_with_selenium.py
+# @File    : python_org_search.py
 # @Software: PyCharm
 # code is far away from bugs with the god animal protecting
     I love animals. They taste delicious.
@@ -21,27 +21,27 @@
                ┃┫┫ ┃┫┫
                ┗┻┛ ┗┻┛
 """
-import time
 import unittest
 
+
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.select import Select
+
+from test.python_org import page
 
 
-class GoogleTestCase(unittest.TestCase):
+class PythonOrgSearch(unittest.TestCase):
+    """如何封装一个 Page 对象"""
+
     def setUp(self):
-        self.browser = webdriver.Chrome()
-        self.addCleanup(self.browser.quit)
+        self.driver = webdriver.Chrome()
+        self.driver.get('http://www.python.org')
 
-    def testPageTitle(self):
-        self.browser.get('http://www.baidu.com')
-        self.assertIn('百度', self.browser.title)
-        # select = Select(self.browser.find_element_by_id('su'))
-        # select.su
-        time.sleep(3)
-        self.browser.find_element(By.XPATH, '')
-
-
-if __name__ == '__main__':
-    unittest.main(verbosity=2)
+    def test_search_in_python_org(self):
+        """
+        测试 在 python.org 中搜索 "python" ，然后查看搜索结果
+        是否包含该字段
+        """
+        # 加载主界面
+        main_page = page.MainPage(self.driver)
+        # 验证 Python 在 title 中
+        # assert main_page.is_title_matches()."Python.org title dose"
