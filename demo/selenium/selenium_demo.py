@@ -22,6 +22,8 @@
                ┗┻┛ ┗┻┛
 """
 # 打开一个浏览器
+from time import sleep
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
@@ -33,6 +35,9 @@ elem = driver.find_element_by_class_name('input_search')
 elem.click()
 elem.send_keys('google')
 elem.send_keys(Keys.RETURN)
+for handle in driver.window_handles:
+    driver.switch_to.window(handle)
+    sleep(3)
 driver.quit()
 print('Browser is closed')
 
