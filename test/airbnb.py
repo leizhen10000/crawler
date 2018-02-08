@@ -22,6 +22,7 @@
                ┗┻┛ ┗┻┛
 """
 # 获取前20页整租放的名称、价格、评价数量、房屋类型、床数量
+import os
 from selenium import webdriver
 
 
@@ -49,17 +50,29 @@ def airbnb_info():
     driver = webdriver.Chrome(chrome_options=options)
 
     try:
+        house_list = []
         driver.get('https://zh.airbnb.com/s/Shenzhen--China?'
                    'cdn_cn=1&s_tag=nNolWxOC&allow_override%5B%5D=')
-        # 名称
-        names = driver.find_elements_by_xpath('//*[@class="_f21qs6"]/div/div[2]/div/a/div[2]/div/div')
-        '//*[@class="_f21qs6"]/div/div[2]/div/a/div[2]/div/div'
-        # 价格
-        prices = driver.find_elements_by_xpath(
-            '//*[@class="_f21qs6"]/div/div[2]/div/a/div[3]/div/div/div/div/span/span[1]/span[1]/span/span[2]')
-        '//*[@id="listing-22395422"]/div/div[2]/div/a/div[3]/div/div/div/div/span/span[1]/span[1]/span/span[2]'
-        '//*[@id="listing-12808790"]/div/div[2]/div/a/div[3]/div/div/div/div/span/span[1]/span[1]/span/span[2]'
-        print(names)
+        detail = driver.find_elements_by_xpath('//*[@class="_f21qs6"]/div/div[2]')
+        for item in detail:
+            house = {}
+            # 名称
+            name = item.find_element_by_xpath('./div/a/div[2]/div/div')
+            '//*[@class="_f21qs6"]/div/div[2]/div/a/div[2]/div/div'
+            house['name'] = name.text
+            # 价格
+            price = item.find_element_by_xpath(
+                './div/a/div[3]/div/div/div/div/span/span[1]/span[1]/span/span[2]')
+            house['price'] = price.text
+            house_list.append(house)
+        if not os.path.exists('result_data'):
+            os.mkdir('result_data')
+        with open('result_data/airbnb.txt', 'w', encoding='utf-8') as f:
+            for house in house_list:
+                f.writelines('#\n')
+                f.writelines(str(house))
+                f.writelines('\n')
+        f.close()
     finally:
         driver.quit()
 
