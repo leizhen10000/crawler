@@ -58,7 +58,8 @@ driver.find_element_by_link_text('Android').click()
 time.sleep(3)
 
 # 关闭浏览器
-driver.close()
+# driver.close()
+driver.quit()
 print('浏览器已经被关闭')
 
 # 本文参考至 http://blog.csdn.net/gz_testing/article/details/71251901
