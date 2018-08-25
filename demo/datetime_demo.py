@@ -85,3 +85,5 @@ last_month_last_day = datetime.datetime(
     datetime.datetime.today().year, datetime.datetime.today().month, 1
 ) - datetime.timedelta(1)
 print('上月的最后一天', last_month_last_day)
+
+print(int(time.time() * 1000))

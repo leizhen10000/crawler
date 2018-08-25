@@ -38,6 +38,8 @@ def jianshu_viewer():
             'i', class_='iconfont ic-list-read').parent.text.strip()
         view_detail[title] = viewers
 
+    print(view_detail)
+
     with open('jianshu.txt', 'w', encoding='utf-8') as f:  #这里有 python 中文编码问题
         for article in view_detail:
             detail = '标题 ：{} \n访问量 : {}\n\n'.format(
