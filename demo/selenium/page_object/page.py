@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-# @Time    : 2017/12/25 16:27
+# @Time    : 2018/8/27 15:09
 # @Author  : Lei Zhen
 # @Contract: leizhen8080@gmail.com
 # @File    : gov_page.py
@@ -21,40 +21,44 @@
                ┃┫┫ ┃┫┫
                ┗┻┛ ┗┻┛
 """
-# page 对象跟 web页面 一一对应
-# 根据限免对层级的匪类，我们可以将测试代码和 实现类巧妙的分开
-from test.python_org.element import BasePageElement
-from test.python_org.locators import MainPageLocators
+# Page 对象创建用来一一对应每一个web界面
+# 根据下面的方法来分离测试代码层，而且技术上已经实现
+from demo.selenium.page_object.element import BasePageElement
+from demo.selenium.page_object.locators import MainPageLocators
 
 
 class SearchTextElement(BasePageElement):
-    """根据特定的 定位器 获取搜索文本框"""
+    """This class gets the search text form the specified locator"""
+
+    # The locator for search box where search string is entered
     locator = 'q'
 
 
 class BasePage(object):
-    """基础类用于初始化 driver"""
+    """Base class to initialize the base page that will be called from all pages"""
 
     def __init__(self, driver):
         self.driver = driver
 
 
 class MainPage(BasePage):
-    """主页的 执行方法 """
+    """Home page action methods come here. I.e. Python.org"""
+
+    # Declares a variable that will contain the retrieved text
     search_text_element = SearchTextElement()
 
     def is_title_matches(self):
-        """校验 Python 在title 中"""
+        """Verifies that the hardcoded text "Python" appears in page title"""
         return "Python" in self.driver.title
 
     def click_go_button(self):
-        """点击执行搜索"""
+        """Triggers the search"""
         element = self.driver.find_element(*MainPageLocators.GO_BUTTON)
         element.click()
 
 
 class SearchResultsPage(BasePage):
-    """搜索结果页面的 执行方法都放在这"""
+    """Search results page action methods come here"""
 
     def is_results_found(self):
-        return 'No results found.' not in self.driver.page_source
+        return "No results found." not in self.driver.page_source

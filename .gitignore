@@ -1,6 +1,5 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
-*.py[cod]
 *$py.class
 
 # C extensions
@@ -97,3 +96,7 @@ ENV/
 
 # mypy
 .mypy_cache/
+books/handel_excel.md
+miao/new_file.xlsx
+source/excel/
+test/result_data/

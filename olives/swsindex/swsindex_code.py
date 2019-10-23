@@ -34,8 +34,8 @@ import requests
 
 def get_recent_data():
     # 根据不同的年份-月份获取数据
-    year_list = [2018]
-    month_list = [8]
+    year_list = [2019]
+    month_list = [10]
     for year in year_list:
         for month in month_list:
             print("当前月份为", year, month)
@@ -53,8 +53,10 @@ def get_recent_data():
 
             session.close()
 
-            print("等待200s")
-            time.sleep(200)
+            print(f"当前查询月份{month}结束")
+            # print("等待200s")
+            # time.sleep(200)
+        break
         print("跨过年份，等待10分钟")
         time.sleep(600)
 
@@ -149,9 +151,9 @@ def write_into_mysql(index_data):
     """
     print('连接本地 mysql 服务...')
     connect = pymysql.connect(
-        host='localhost', user='root', password='root', charset='utf8')
+        host='192.168.1.61', user='xingyuer', password='lQ*foSwLofxs', port=3318, db='financial', charset='utf8')
     try:
-        sql = ("insert ignore into mybatis.swsindex_daily_report "
+        sql = ("insert ignore into swsindex_daily_report "
                " (index_code, index_name, bargain_date, pe_ratio, pb_ratio) "
                " values(%s, %s, %s, %s, %s)")
         with connect.cursor() as cursor:
@@ -159,7 +161,7 @@ def write_into_mysql(index_data):
             connect.commit()
 
         with connect.cursor() as cursor:
-            sql = "select * from mybatis.swsindex_daily_report"
+            sql = "select * from swsindex_daily_report"
             cursor.execute(sql)
             result = cursor.fetchall()
             print(result)
@@ -171,7 +173,7 @@ def write_into_mysql(index_data):
 
 def init_page(year, month):
     first, end = _cal_month_day(year, month)
-    pre_url = 'http://www.swsindex.com/ajaxpro/Idx0200,App_Web_5dybq516.ashx'
+    pre_url = 'http://www.swsindex.com/ajaxpro/Idx0200,App_Web_hhibvfoy.ashx'
     pre_headers = {
         'X-AjaxPro-Method': 'ReturnPageCount',
         'Origin': 'http://www.swsindex.com',
